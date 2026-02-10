@@ -39,7 +39,7 @@ public extension UnsafeMutableBufferPointer where Element: SIMDScalar {
 }
 
 @frozen
-public struct ScalarIndex {
+public struct I {
     public let value: Int
 
     @inlinable
@@ -55,7 +55,7 @@ public extension Span where Element: SIMDScalar {
     }
 
     @inlinable
-    subscript<V: SIMD>(scalarIndex: ScalarIndex) -> V where V.Scalar == Element {
+    subscript<V: SIMD>(scalarIndex: I) -> V where V.Scalar == Element {
         self.simdLoad(scalarIndex.value)
     }
 
@@ -74,7 +74,7 @@ public extension MutableSpan where Element: SIMDScalar {
     }
 
     @inlinable
-    subscript<V: SIMD>(scalarIndex: ScalarIndex) -> V where V.Scalar == Element {
+    subscript<V: SIMD>(scalarIndex: I) -> V where V.Scalar == Element {
         get {
             self.simdLoad(scalarIndex.value)
         }
@@ -97,7 +97,7 @@ public extension Array where Element: SIMDScalar {
     }
 
     @inlinable
-    subscript<V: SIMD>(scalarIndex: ScalarIndex) -> V where V.Scalar == Element {
+    subscript<V: SIMD>(scalarIndex: I) -> V where V.Scalar == Element {
         get {
             self.simdLoad(scalarIndex.value)
         }

@@ -328,27 +328,27 @@ struct ScalarIndexSubscriptTests {
 
     @Test func arrayScalarIndexSet() {
         var xs: [Int32] = [1, 2, 3, 4, 5, 6, 7, 8]
-        xs[ScalarIndex(2)] = SIMD4<Int32>(30, 40, 50, 60)
+        xs[I(2)] = SIMD4(30, 40, 50, 60)
         #expect(xs == [1, 2, 30, 40, 50, 60, 7, 8])
     }
 
     @Test func spanScalarIndexGet() {
         let xs: [Int32] = [1, 2, 3, 4, 5, 6, 7, 8]
         let span = xs.span
-        let v: SIMD4<Int32> = span[ScalarIndex(2)]
+        let v: SIMD4 = span[I(2)]
         #expect(v == SIMD4(3, 4, 5, 6))
     }
 
     @Test func mutableSpanScalarIndexGet() {
         var xs: [Int32] = [1, 2, 3, 4, 5, 6, 7, 8]
-        let v: SIMD4<Int32> = xs.mutableSpan[ScalarIndex(2)]
+        let v: SIMD4 = xs.mutableSpan[I(2)]
         #expect(v == SIMD4(3, 4, 5, 6))
     }
 
     @Test func mutableSpanScalarIndexSet() {
         var base: [Int32] = [1, 2, 3, 4, 5, 6, 7, 8]
         var xs = base.mutableSpan
-        xs[ScalarIndex(2)] = SIMD4<Int32>(30, 40, 50, 60)
+        xs[I(2)] = SIMD4<Int32>(30, 40, 50, 60)
         #expect(base == [1, 2, 30, 40, 50, 60, 7, 8])
     }
 }
