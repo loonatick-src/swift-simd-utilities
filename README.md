@@ -10,10 +10,25 @@ Example usage.
 ```swift
 import SIMDUtils
 
-let xs = [1, 2, 3, 4, 5, 6, 7, 8]
-assert(xs[I2(0)] == SIMD2(1, 2))
-assert(xs[I4(0) == SIMD4(1, 2, 3, 4))
-assert(xs[I4(2) == SIMD4(3, 4, 5, 6))
+var xs = [1, 2, 3, 4, 5, 6, 7, 8]
+// SIMD loads
+assert(xs[I2(0)] == SIMD2(1, 2))        // 2-wide SIMD from start of array, scalar type inferred
+assert(xs[I4(0)] == SIMD4(1, 2, 3, 4))  // 4-wide SIMD from start of array, scalar type inferred
+assert(xs[I4(2)] == SIMD4(3, 4, 5, 6))  // 4-wide SIMD from offset 2, scalar type inferred
+
+func load4<T: SIMDScalar>(_ xs: [T], at index: Int) -> SIMD4<T> {
+    xs[I(index)]  // SIMD width and scalar type inferred
+}
+
+assert(load4(xs, at: 3) == SIMD4(4, 5, 6, 7))
+
+// SIMD stores
+// NOTE: Array subscript setters are deliberately not provided
+// use `Array.mutableSpan` instead (see saxpy example below)
+xs.simdStore(value: SIMD4(10, 20, 30, 40), at: 0)
+assert(xs == [10, 20, 30, 40, 5, 6, 7, 8])
+xs.simdStore(value: SIMD2(42, 99), at: 3)
+assert(xs == [10, 20, 30, 42, 99, 6, 7, 8])
 
 func saxpy(_ ys: inout [Float32], _ xs: [Float32], a: Float32) {
     precondition(ys.count == xs.count)
@@ -23,10 +38,10 @@ func saxpy(_ ys: inout [Float32], _ xs: [Float32], a: Float32) {
     var i = 0
     while i < xs.count {
         defer { i += 8 }
-        let x1 = xs[I4(i)]
-        let x2 = xs[I4(i+4)]
-        let y1 = ys[I4(i)]
-        let y2 = ys[I4(i+4)]
+        let x1 = x[I4(i)]
+        let x2 = x[I4(i+4)]
+        let y1 = y[I4(i)]
+        let y2 = y[I4(i+4)]
         y[I4(i)] = a * x1 + y1
         y[I4(i+4)] = a * x2 + y2
     }
