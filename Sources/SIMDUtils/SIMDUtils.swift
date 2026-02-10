@@ -1,16 +1,7 @@
 public extension UnsafePointer where Pointee: SIMDScalar {
     @inlinable
     func loadUnalignedSIMD<V: SIMD>(_ index: Int) -> V where V.Scalar == Pointee {
-        UnsafeRawPointer(self).loadUnaligned(fromByteOffset: index * MemoryLayout<V.Scalar>.stride, as: V.self)
-    }
-}
-
-public extension UnsafeBufferPointer where Element: SIMDScalar {
-    @inlinable
-    func loadUnalignedSIMD<V: SIMD>(
-        _ index: Int
-    ) -> V where V.Scalar == Element {
-     UnsafeRawBufferPointer(self).loadUnaligned(fromByteOffset: index * MemoryLayout<V.Scalar>.stride, as: V.self)
+        UnsafeRawPointer(self).loadUnaligned(fromByteOffset: index &* MemoryLayout<V.Scalar>.stride, as: V.self)
     }
 }
 
@@ -22,7 +13,16 @@ public extension UnsafeMutablePointer where Pointee: SIMDScalar {
 
     @inlinable
     func storeSIMD<V: SIMD>(value: V, _ index: Int) where V.Scalar == Pointee {
-        UnsafeMutableRawPointer(self).storeBytes(of: value, toByteOffset: index * MemoryLayout<V.Scalar>.stride, as: V.self)
+        UnsafeMutableRawPointer(self).storeBytes(of: value, toByteOffset: index &* MemoryLayout<V.Scalar>.stride, as: V.self)
+    }
+}
+
+public extension UnsafeBufferPointer where Element: SIMDScalar {
+    @inlinable
+    func loadUnalignedSIMD<V: SIMD>(
+        _ index: Int
+    ) -> V where V.Scalar == Element {
+        UnsafeRawBufferPointer(self).loadUnaligned(fromByteOffset: index &* MemoryLayout<V.Scalar>.stride, as: V.self)
     }
 }
 
