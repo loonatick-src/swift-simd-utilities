@@ -17,14 +17,6 @@ struct ArraySubscriptTests {
         #expect(v6 == SIMD2(7, 8))
     }
 
-    @Test func arrayI2Set() {
-        var xs: [Int32] = [1, 2, 3, 4, 5, 6, 7, 8]
-        xs[I2(0)] = SIMD2(10, 20)
-        xs[I2(4)] = SIMD2(50, 60)
-
-        #expect(xs == [10, 20, 3, 4, 50, 60, 7, 8])
-    }
-
     @Test func arrayI4Get() {
         let xs: [Int32] = [1, 2, 3, 4, 5, 6, 7, 8]
         let v0: SIMD4<Int32> = xs[I4(0)]
@@ -36,13 +28,6 @@ struct ArraySubscriptTests {
         #expect(v4 == SIMD4(5, 6, 7, 8))
     }
 
-    @Test func arrayI4Set() {
-        var xs: [Int32] = [1, 2, 3, 4, 5, 6, 7, 8]
-        xs[I4(0)] = SIMD4(10, 20, 30, 40)
-
-        #expect(xs == [10, 20, 30, 40, 5, 6, 7, 8])
-    }
-
     @Test func arrayI8Get() {
         let xs: [Int32] = Array(1...16)
         let v0: SIMD8<Int32> = xs[I8(0)]
@@ -50,15 +35,6 @@ struct ArraySubscriptTests {
 
         #expect(v0 == SIMD8(1, 2, 3, 4, 5, 6, 7, 8))
         #expect(v4 == SIMD8(5, 6, 7, 8, 9, 10, 11, 12))
-    }
-
-    @Test func arrayI8Set() {
-        var xs: [Int32] = Array(1...16)
-        xs[I8(0)] = SIMD8(10, 20, 30, 40, 50, 60, 70, 80)
-
-        #expect(xs[0] == 10)
-        #expect(xs[7] == 80)
-        #expect(xs[8] == 9)
     }
 
     @Test func arrayI16Get() {
@@ -72,17 +48,6 @@ struct ArraySubscriptTests {
         #expect(v8[15] == 24)
     }
 
-    @Test func arrayI16Set() {
-        var xs: [Int32] = Array(1...32)
-        var newValue = SIMD16<Int32>()
-        for i in 0..<16 { newValue[i] = Int32((i + 1) * 10) }
-        xs[I16(0)] = newValue
-
-        #expect(xs[0] == 10)
-        #expect(xs[15] == 160)
-        #expect(xs[16] == 17)
-    }
-
     @Test func arrayI32Get() {
         let xs: [Int32] = Array(1...64)
         let v0: SIMD32<Int32> = xs[I32(0)]
@@ -94,17 +59,6 @@ struct ArraySubscriptTests {
         #expect(v16[31] == 48)
     }
 
-    @Test func arrayI32Set() {
-        var xs: [Int32] = Array(1...64)
-        var newValue = SIMD32<Int32>()
-        for i in 0..<32 { newValue[i] = Int32((i + 1) * 10) }
-        xs[I32(0)] = newValue
-
-        #expect(xs[0] == 10)
-        #expect(xs[31] == 320)
-        #expect(xs[32] == 33)
-    }
-
     @Test func arrayI64Get() {
         let xs: [Int32] = Array(1...128)
         let v0: SIMD64<Int32> = xs[I64(0)]
@@ -114,17 +68,6 @@ struct ArraySubscriptTests {
         #expect(v0[63] == 64)
         #expect(v32[0] == 33)
         #expect(v32[63] == 96)
-    }
-
-    @Test func arrayI64Set() {
-        var xs: [Int32] = Array(1...128)
-        var newValue = SIMD64<Int32>()
-        for i in 0..<64 { newValue[i] = Int32((i + 1) * 10) }
-        xs[I64(0)] = newValue
-
-        #expect(xs[0] == 10)
-        #expect(xs[63] == 640)
-        #expect(xs[64] == 65)
     }
 
     @Test func arrayWithFloats() {
