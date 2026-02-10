@@ -34,7 +34,7 @@ public extension UnsafeMutableBufferPointer where Element: SIMDScalar {
 
     @inlinable
     func storeSIMD<V: SIMD>(value: V, _ index: Int) where V.Scalar == Element {
-        UnsafeMutableRawBufferPointer(self).storeBytes(of: value, toByteOffset: index * MemoryLayout<V.Scalar>.stride, as: V.self)
+        UnsafeMutableRawBufferPointer(self).storeBytes(of: value, toByteOffset: index &* MemoryLayout<V.Scalar>.stride, as: V.self)
     }
 }
 
