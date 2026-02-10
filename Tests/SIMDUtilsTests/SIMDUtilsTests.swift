@@ -8,9 +8,9 @@ struct ArraySubscriptTests {
 
     @Test func arrayI2Get() {
         let xs: [Int32] = [1, 2, 3, 4, 5, 6, 7, 8]
-        let v0: SIMD2<Int32> = xs[I2(0)]
-        let v2: SIMD2<Int32> = xs[I2(2)]
-        let v6: SIMD2<Int32> = xs[I2(6)]
+        let v0 = xs[I2(0)]
+        let v2 = xs[I2(2)]
+        let v6 = xs[I2(6)]
 
         #expect(v0 == SIMD2(1, 2))
         #expect(v2 == SIMD2(3, 4))
@@ -19,9 +19,9 @@ struct ArraySubscriptTests {
 
     @Test func arrayI4Get() {
         let xs: [Int32] = [1, 2, 3, 4, 5, 6, 7, 8]
-        let v0: SIMD4<Int32> = xs[I4(0)]
-        let v2: SIMD4<Int32> = xs[I4(2)]
-        let v4: SIMD4<Int32> = xs[I4(4)]
+        let v0 = xs[I4(0)]
+        let v2 = xs[I4(2)]
+        let v4 = xs[I4(4)]
 
         #expect(v0 == SIMD4(1, 2, 3, 4))
         #expect(v2 == SIMD4(3, 4, 5, 6))
@@ -30,8 +30,8 @@ struct ArraySubscriptTests {
 
     @Test func arrayI8Get() {
         let xs: [Int32] = Array(1...16)
-        let v0: SIMD8<Int32> = xs[I8(0)]
-        let v4: SIMD8<Int32> = xs[I8(4)]
+        let v0 = xs[I8(0)]
+        let v4 = xs[I8(4)]
 
         #expect(v0 == SIMD8(1, 2, 3, 4, 5, 6, 7, 8))
         #expect(v4 == SIMD8(5, 6, 7, 8, 9, 10, 11, 12))
@@ -39,8 +39,8 @@ struct ArraySubscriptTests {
 
     @Test func arrayI16Get() {
         let xs: [Int32] = Array(1...32)
-        let v0: SIMD16<Int32> = xs[I16(0)]
-        let v8: SIMD16<Int32> = xs[I16(8)]
+        let v0 = xs[I16(0)]
+        let v8 = xs[I16(8)]
 
         #expect(v0[0] == 1)
         #expect(v0[15] == 16)
@@ -50,8 +50,8 @@ struct ArraySubscriptTests {
 
     @Test func arrayI32Get() {
         let xs: [Int32] = Array(1...64)
-        let v0: SIMD32<Int32> = xs[I32(0)]
-        let v16: SIMD32<Int32> = xs[I32(16)]
+        let v0 = xs[I32(0)]
+        let v16 = xs[I32(16)]
 
         #expect(v0[0] == 1)
         #expect(v0[31] == 32)
@@ -61,8 +61,8 @@ struct ArraySubscriptTests {
 
     @Test func arrayI64Get() {
         let xs: [Int32] = Array(1...128)
-        let v0: SIMD64<Int32> = xs[I64(0)]
-        let v32: SIMD64<Int32> = xs[I64(32)]
+        let v0 = xs[I64(0)]
+        let v32 = xs[I64(32)]
 
         #expect(v0[0] == 1)
         #expect(v0[63] == 64)
@@ -91,9 +91,9 @@ struct SpanSubscriptTests {
     @Test func spanI2Get() {
         let xs: [Int32] = [1, 2, 3, 4, 5, 6, 7, 8]
         let span = xs.span
-        let v0: SIMD2<Int32> = span[I2(0)]
-        let v2: SIMD2<Int32> = span[I2(2)]
-        let v6: SIMD2<Int32> = span[I2(6)]
+        let v0 = span[I2(0)]
+        let v2 = span[I2(2)]
+        let v6 = span[I2(6)]
 
         #expect(v0 == SIMD2(1, 2))
         #expect(v2 == SIMD2(3, 4))
@@ -103,9 +103,9 @@ struct SpanSubscriptTests {
     @Test func spanI4Get() {
         let xs: [Int32] = [1, 2, 3, 4, 5, 6, 7, 8]
         let span = xs.span
-        let v0: SIMD4<Int32> = span[I4(0)]
-        let v2: SIMD4<Int32> = span[I4(2)]
-        let v4: SIMD4<Int32> = span[I4(4)]
+        let v0 = span[I4(0)]
+        let v2 = span[I4(2)]
+        let v4 = span[I4(4)]
 
         #expect(v0 == SIMD4(1, 2, 3, 4))
         #expect(v2 == SIMD4(3, 4, 5, 6))
@@ -115,8 +115,8 @@ struct SpanSubscriptTests {
     @Test func spanI8Get() {
         let xs: [Int32] = Array(1...16)
         let span = xs.span
-        let v0: SIMD8<Int32> = span[I8(0)]
-        let v4: SIMD8<Int32> = span[I8(4)]
+        let v0 = span[I8(0)]
+        let v4 = span[I8(4)]
 
         #expect(v0 == SIMD8(1, 2, 3, 4, 5, 6, 7, 8))
         #expect(v4 == SIMD8(5, 6, 7, 8, 9, 10, 11, 12))
@@ -125,8 +125,8 @@ struct SpanSubscriptTests {
     @Test func spanI16Get() {
         let xs: [Int32] = Array(1...32)
         let span = xs.span
-        let v0: SIMD16<Int32> = span[I16(0)]
-        let v8: SIMD16<Int32> = span[I16(8)]
+        let v0 = span[I16(0)]
+        let v8 = span[I16(8)]
 
         #expect(v0[0] == 1)
         #expect(v0[15] == 16)
@@ -137,8 +137,8 @@ struct SpanSubscriptTests {
     @Test func spanI32Get() {
         let xs: [Int32] = Array(1...64)
         let span = xs.span
-        let v0: SIMD32<Int32> = span[I32(0)]
-        let v16: SIMD32<Int32> = span[I32(16)]
+        let v0 = span[I32(0)]
+        let v16 = span[I32(16)]
 
         #expect(v0[0] == 1)
         #expect(v0[31] == 32)
@@ -149,8 +149,8 @@ struct SpanSubscriptTests {
     @Test func spanI64Get() {
         let xs: [Int32] = Array(1...128)
         let span = xs.span
-        let v0: SIMD64<Int32> = span[I64(0)]
-        let v32: SIMD64<Int32> = span[I64(32)]
+        let v0 = span[I64(0)]
+        let v32 = span[I64(32)]
 
         #expect(v0[0] == 1)
         #expect(v0[63] == 64)
@@ -161,7 +161,7 @@ struct SpanSubscriptTests {
     @Test func spanWithFloats() {
         let xs: [Float] = [1.0, 2.0, 3.0, 4.0]
         let span = xs.span
-        let v: SIMD4<Float> = span[I4(0)]
+        let v = span[I4(0)]
         #expect(v == SIMD4(1.0, 2.0, 3.0, 4.0))
     }
 }
@@ -174,9 +174,9 @@ struct MutableSpanSubscriptTests {
     @Test func mutableSpanI2Get() {
         var base: [Int32] = [1, 2, 3, 4, 5, 6, 7, 8]
         let xs = base.mutableSpan
-        let v0: SIMD2<Int32> = xs[I2(0)]
-        let v2: SIMD2<Int32> = xs[I2(2)]
-        let v6: SIMD2<Int32> = xs[I2(6)]
+        let v0 = xs[I2(0)]
+        let v2 = xs[I2(2)]
+        let v6 = xs[I2(6)]
 
         #expect(v0 == SIMD2(1, 2))
         #expect(v2 == SIMD2(3, 4))
@@ -195,9 +195,9 @@ struct MutableSpanSubscriptTests {
     @Test func mutableSpanI4Get() {
         var base: [Int32] = [1, 2, 3, 4, 5, 6, 7, 8]
         let xs = base.mutableSpan
-        let v0: SIMD4<Int32> = xs[I4(0)]
-        let v2: SIMD4<Int32> = xs[I4(2)]
-        let v4: SIMD4<Int32> = xs[I4(4)]
+        let v0 = xs[I4(0)]
+        let v2 = xs[I4(2)]
+        let v4 = xs[I4(4)]
 
         #expect(v0 == SIMD4(1, 2, 3, 4))
         #expect(v2 == SIMD4(3, 4, 5, 6))
@@ -215,8 +215,8 @@ struct MutableSpanSubscriptTests {
     @Test func mutableSpanI8Get() {
         var base: [Int32] = Array(1...16)
         let xs = base.mutableSpan
-        let v0: SIMD8<Int32> = xs[I8(0)]
-        let v4: SIMD8<Int32> = xs[I8(4)]
+        let v0 = xs[I8(0)]
+        let v4 = xs[I8(4)]
 
         #expect(v0 == SIMD8(1, 2, 3, 4, 5, 6, 7, 8))
         #expect(v4 == SIMD8(5, 6, 7, 8, 9, 10, 11, 12))
@@ -235,8 +235,8 @@ struct MutableSpanSubscriptTests {
     @Test func mutableSpanI16Get() {
         var base: [Int32] = Array(1...32)
         let xs = base.mutableSpan
-        let v0: SIMD16<Int32> = xs[I16(0)]
-        let v8: SIMD16<Int32> = xs[I16(8)]
+        let v0 = xs[I16(0)]
+        let v8 = xs[I16(8)]
 
         #expect(v0[0] == 1)
         #expect(v0[15] == 16)
@@ -259,8 +259,8 @@ struct MutableSpanSubscriptTests {
     @Test func mutableSpanI32Get() {
         var base: [Int32] = Array(1...64)
         let xs = base.mutableSpan
-        let v0: SIMD32<Int32> = xs[I32(0)]
-        let v16: SIMD32<Int32> = xs[I32(16)]
+        let v0 = xs[I32(0)]
+        let v16 = xs[I32(16)]
 
         #expect(v0[0] == 1)
         #expect(v0[31] == 32)
@@ -283,8 +283,8 @@ struct MutableSpanSubscriptTests {
     @Test func mutableSpanI64Get() {
         var base: [Int32] = Array(1...128)
         let xs = base.mutableSpan
-        let v0: SIMD64<Int32> = xs[I64(0)]
-        let v32: SIMD64<Int32> = xs[I64(32)]
+        let v0 = xs[I64(0)]
+        let v32 = xs[I64(32)]
 
         #expect(v0[0] == 1)
         #expect(v0[63] == 64)
@@ -307,9 +307,9 @@ struct MutableSpanSubscriptTests {
     @Test func mutableSpanWithFloats() {
         var base: [Float] = [1.0, 2.0, 3.0, 4.0]
         var xs = base.mutableSpan
-        let v: SIMD4<Float> = xs[I4(0)]
+        let v = xs[I4(0)]
         #expect(v == SIMD4(1.0, 2.0, 3.0, 4.0))
-    
+
         xs[I4(0)] = SIMD4(10.0, 20.0, 30.0, 40.0)
         #expect(base == [10.0, 20.0, 30.0, 40.0])
     }
@@ -322,7 +322,7 @@ struct ScalarIndexSubscriptTests {
 
     @Test func arrayScalarIndexGet() {
         let xs: [Int32] = [1, 2, 3, 4, 5, 6, 7, 8]
-        let v: SIMD4<Int32> = xs[ScalarIndex(2)]
+        let v: SIMD4 = xs[I(2)]
         #expect(v == SIMD4(3, 4, 5, 6))
     }
 

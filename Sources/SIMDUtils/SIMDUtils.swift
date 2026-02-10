@@ -54,8 +54,6 @@ public extension Span where Element: SIMDScalar {
         self.withUnsafeBufferPointer { $0.loadUnalignedSIMD(index) }
     }
 
-    
-
     @inlinable
     subscript<V: SIMD>(scalarIndex: ScalarIndex) -> V where V.Scalar == Element {
         self.simdLoad(scalarIndex.value)
