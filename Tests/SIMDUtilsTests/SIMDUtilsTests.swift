@@ -315,6 +315,201 @@ struct MutableSpanSubscriptTests {
     }
 }
 
+// MARK: - UnsafeBufferPointer Subscript Tests
+
+@Suite("UnsafeBufferPointer SIMD Subscripts")
+struct UnsafeBufferPointerSubscriptTests {
+
+    @Test func ubpI2Get() {
+        let xs: [Int32] = [1, 2, 3, 4, 5, 6, 7, 8]
+        xs.withUnsafeBufferPointer { buf in
+            let v0 = buf[I2(0)]
+            let v2 = buf[I2(2)]
+            let v6 = buf[I2(6)]
+
+            #expect(v0 == SIMD2(1, 2))
+            #expect(v2 == SIMD2(3, 4))
+            #expect(v6 == SIMD2(7, 8))
+        }
+    }
+
+    @Test func ubpI4Get() {
+        let xs: [Int32] = [1, 2, 3, 4, 5, 6, 7, 8]
+        xs.withUnsafeBufferPointer { buf in
+            let v0 = buf[I4(0)]
+            let v2 = buf[I4(2)]
+            let v4 = buf[I4(4)]
+
+            #expect(v0 == SIMD4(1, 2, 3, 4))
+            #expect(v2 == SIMD4(3, 4, 5, 6))
+            #expect(v4 == SIMD4(5, 6, 7, 8))
+        }
+    }
+
+    @Test func ubpI8Get() {
+        let xs: [Int32] = Array(1...16)
+        xs.withUnsafeBufferPointer { buf in
+            let v0 = buf[I8(0)]
+            let v4 = buf[I8(4)]
+
+            #expect(v0 == SIMD8(1, 2, 3, 4, 5, 6, 7, 8))
+            #expect(v4 == SIMD8(5, 6, 7, 8, 9, 10, 11, 12))
+        }
+    }
+
+    @Test func ubpI16Get() {
+        let xs: [Int32] = Array(1...32)
+        xs.withUnsafeBufferPointer { buf in
+            let v0 = buf[I16(0)]
+            let v8 = buf[I16(8)]
+
+            #expect(v0[0] == 1)
+            #expect(v0[15] == 16)
+            #expect(v8[0] == 9)
+            #expect(v8[15] == 24)
+        }
+    }
+
+    @Test func ubpI32Get() {
+        let xs: [Int32] = Array(1...64)
+        xs.withUnsafeBufferPointer { buf in
+            let v0 = buf[I32(0)]
+            let v16 = buf[I32(16)]
+
+            #expect(v0[0] == 1)
+            #expect(v0[31] == 32)
+            #expect(v16[0] == 17)
+            #expect(v16[31] == 48)
+        }
+    }
+
+    @Test func ubpI64Get() {
+        let xs: [Int32] = Array(1...128)
+        xs.withUnsafeBufferPointer { buf in
+            let v0 = buf[I64(0)]
+            let v32 = buf[I64(32)]
+
+            #expect(v0[0] == 1)
+            #expect(v0[63] == 64)
+            #expect(v32[0] == 33)
+            #expect(v32[63] == 96)
+        }
+    }
+
+    @Test func ubpWithFloats() {
+        let xs: [Float] = [1.0, 2.0, 3.0, 4.0]
+        xs.withUnsafeBufferPointer { buf in
+            let v = buf[I4(0)]
+            #expect(v == SIMD4(1.0, 2.0, 3.0, 4.0))
+        }
+    }
+}
+
+// MARK: - UnsafeMutableBufferPointer Subscript Tests
+
+@Suite("UnsafeMutableBufferPointer SIMD Subscripts")
+struct UnsafeMutableBufferPointerSubscriptTests {
+
+    @Test func umbpI2GetSet() {
+        var xs: [Int32] = [1, 2, 3, 4, 5, 6, 7, 8]
+        xs.withUnsafeMutableBufferPointer { buf in
+            let v0 = buf[I2(0)]
+            let v6 = buf[I2(6)]
+            #expect(v0 == SIMD2(1, 2))
+            #expect(v6 == SIMD2(7, 8))
+
+            buf[I2(0)] = SIMD2(10, 20)
+            buf[I2(4)] = SIMD2(50, 60)
+        }
+        #expect(xs == [10, 20, 3, 4, 50, 60, 7, 8])
+    }
+
+    @Test func umbpI4GetSet() {
+        var xs: [Int32] = [1, 2, 3, 4, 5, 6, 7, 8]
+        xs.withUnsafeMutableBufferPointer { buf in
+            let v0 = buf[I4(0)]
+            let v2 = buf[I4(2)]
+            #expect(v0 == SIMD4(1, 2, 3, 4))
+            #expect(v2 == SIMD4(3, 4, 5, 6))
+
+            buf[I4(0)] = SIMD4(10, 20, 30, 40)
+        }
+        #expect(xs == [10, 20, 30, 40, 5, 6, 7, 8])
+    }
+
+    @Test func umbpI8GetSet() {
+        var xs: [Int32] = Array(1...16)
+        xs.withUnsafeMutableBufferPointer { buf in
+            let v0 = buf[I8(0)]
+            #expect(v0 == SIMD8(1, 2, 3, 4, 5, 6, 7, 8))
+
+            buf[I8(0)] = SIMD8(10, 20, 30, 40, 50, 60, 70, 80)
+            #expect(buf[0] == 10)
+            #expect(buf[7] == 80)
+            #expect(buf[8] == 9)
+        }
+    }
+
+    @Test func umbpI16GetSet() {
+        var xs: [Int32] = Array(1...32)
+        xs.withUnsafeMutableBufferPointer { buf in
+            let v0 = buf[I16(0)]
+            #expect(v0[0] == 1)
+            #expect(v0[15] == 16)
+
+            var newValue = SIMD16<Int32>()
+            for i in 0..<16 { newValue[i] = Int32((i + 1) * 10) }
+            buf[I16(0)] = newValue
+            #expect(buf[0] == 10)
+            #expect(buf[15] == 160)
+            #expect(buf[16] == 17)
+        }
+    }
+
+    @Test func umbpI32GetSet() {
+        var xs: [Int32] = Array(1...64)
+        xs.withUnsafeMutableBufferPointer { buf in
+            let v0 = buf[I32(0)]
+            #expect(v0[0] == 1)
+            #expect(v0[31] == 32)
+
+            var newValue = SIMD32<Int32>()
+            for i in 0..<32 { newValue[i] = Int32((i + 1) * 10) }
+            buf[I32(0)] = newValue
+            #expect(buf[0] == 10)
+            #expect(buf[31] == 320)
+            #expect(buf[32] == 33)
+        }
+    }
+
+    @Test func umbpI64GetSet() {
+        var xs: [Int32] = Array(1...128)
+        xs.withUnsafeMutableBufferPointer { buf in
+            let v0 = buf[I64(0)]
+            #expect(v0[0] == 1)
+            #expect(v0[63] == 64)
+
+            var newValue = SIMD64<Int32>()
+            for i in 0..<64 { newValue[i] = Int32((i + 1) * 10) }
+            buf[I64(0)] = newValue
+            #expect(buf[0] == 10)
+            #expect(buf[63] == 640)
+            #expect(buf[64] == 65)
+        }
+    }
+
+    @Test func umbpWithFloats() {
+        var xs: [Float] = [1.0, 2.0, 3.0, 4.0]
+        xs.withUnsafeMutableBufferPointer { buf in
+            let v = buf[I4(0)]
+            #expect(v == SIMD4(1.0, 2.0, 3.0, 4.0))
+
+            buf[I4(0)] = SIMD4(10.0, 20.0, 30.0, 40.0)
+        }
+        #expect(xs == [10.0, 20.0, 30.0, 40.0])
+    }
+}
+
 // MARK: - ScalarIndex Tests (from SIMDUtils.swift)
 
 @Suite("ScalarIndex Subscripts")

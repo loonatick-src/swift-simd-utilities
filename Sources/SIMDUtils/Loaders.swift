@@ -119,6 +119,98 @@ public extension Span where Element: SIMDScalar {
     @inlinable
     subscript(i64: I64) -> SIMD64<Element> {
         self.simdLoad(i64.index)
+
+public extension UnsafeBufferPointer where Element: SIMDScalar {
+    @inlinable
+    subscript(i2: I2) -> SIMD2<Element> {
+        self.loadUnalignedSIMD(i2.index)
+    }
+
+    @inlinable
+    subscript(i4: I4) -> SIMD4<Element> {
+        self.loadUnalignedSIMD(i4.index)
+    }
+
+    @inlinable
+    subscript(i8: I8) -> SIMD8<Element> {
+        self.loadUnalignedSIMD(i8.index)
+    }
+
+    @inlinable
+    subscript(i16: I16) -> SIMD16<Element> {
+        self.loadUnalignedSIMD(i16.index)
+    }
+
+    @inlinable
+    subscript(i32: I32) -> SIMD32<Element> {
+        self.loadUnalignedSIMD(i32.index)
+    }
+
+    @inlinable
+    subscript(i64: I64) -> SIMD64<Element> {
+        self.loadUnalignedSIMD(i64.index)
+    }
+}
+
+public extension UnsafeMutableBufferPointer where Element: SIMDScalar {
+    @inlinable
+    subscript(i2: I2) -> SIMD2<Element> {
+        get {
+            self.loadUnalignedSIMD(i2.index)
+        }
+        set {
+            self.storeSIMD(value: newValue, i2.index)
+        }
+    }
+
+    @inlinable
+    subscript(i4: I4) -> SIMD4<Element> {
+        get {
+            self.loadUnalignedSIMD(i4.index)
+        }
+        set {
+            self.storeSIMD(value: newValue, i4.index)
+        }
+    }
+
+    @inlinable
+    subscript(i8: I8) -> SIMD8<Element> {
+        get {
+            self.loadUnalignedSIMD(i8.index)
+        }
+        set {
+            self.storeSIMD(value: newValue, i8.index)
+        }
+    }
+
+    @inlinable
+    subscript(i16: I16) -> SIMD16<Element> {
+        get {
+            self.loadUnalignedSIMD(i16.index)
+        }
+        set {
+            self.storeSIMD(value: newValue, i16.index)
+        }
+    }
+
+    @inlinable
+    subscript(i32: I32) -> SIMD32<Element> {
+        get {
+            self.loadUnalignedSIMD(i32.index)
+        }
+        set {
+            self.storeSIMD(value: newValue, i32.index)
+        }
+    }
+
+    @inlinable
+    subscript(i64: I64) -> SIMD64<Element> {
+        get {
+            self.loadUnalignedSIMD(i64.index)
+        }
+        set {
+            self.storeSIMD(value: newValue, i64.index)
+        }
     }
 }
 
