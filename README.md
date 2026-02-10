@@ -37,7 +37,7 @@ func saxpy(_ ys: inout [Float32], _ xs: [Float32], a: Float32) {
     var y = ys.mutableSpan
     var i = 0
     while i < xs.count {
-        defer { i += 8 }
+        defer { i &+= 8 }
         let x1 = x[I4(i)]
         let x2 = x[I4(i+4)]
         let y1 = y[I4(i)]
@@ -45,7 +45,6 @@ func saxpy(_ ys: inout [Float32], _ xs: [Float32], a: Float32) {
         y[I4(i)] = a * x1 + y1
         y[I4(i+4)] = a * x2 + y2
     }
-    return
 }
 ```
 
@@ -53,21 +52,49 @@ Codegen (`swift build -c release -Xswiftc -Ounchecked -Xswiftc -enable-experimen
 
 ```
 .loop:
-ldp     q0, q1, [x9, #-0x10]
-ldp     q2, q3, [x10, #-0x10]
+ldp     q0, q1, [x10, #-0x10]
+ldp     q2, q3, [x9, #-0x10]
 fmul.4s v0, v0, v4[0]
 fadd.4s v0, v0, v2
 fmul.4s v1, v1, v4[0]
 fadd.4s v1, v1, v3
-stp     q0, q1, [x10, #-0x10]
+stp     q0, q1, [x9, #-0x10]
 add     x8, x8, #0x8
 add     x9, x9, #0x20
 add     x10, x10, #0x20
-cmp     x8, x22
+cmp     x8, x21
 b.lt    .loop
 ```
 
-This does not beat the codegen that autovectorization is capable of, but this is just an example of what kind of codegen to expect.
+This gets close to what the compiler produces on autovectorization, the instruction scheduling is different between the two.
+This is what the compiler produces for a straightforward implementation that uses `Span` and `MutableSpan`.
+
+```swift
+func saxpy(_ ys: inout [Float32], _ xs: [Float32], a: Float32) {
+    precondition(ys.count == xs.count)
+    precondition(xs.count % 8 == 0)
+    let x = xs.span
+    var y = ys.mutableSpan
+    for i in x.indices {
+        y[i] += a * x[i]
+    }
+}
+```
+
+```
+.loop:
+ldp     q0, q1, [x9, #-0x10]
+fmul.4s v0, v0, v4[0]
+fmul.4s v1, v1, v4[0]
+ldp     q2, q3, [x10, #-0x10]
+fadd.4s v0, v2, v0
+fadd.4s v1, v3, v1
+stp     q0, q1, [x10, #-0x10]
+add     x9, x9, #0x20
+add     x10, x10, #0x20
+subs    x11, x11, #0x8
+b.ne    .loop
+```
 
 
 # TODO
