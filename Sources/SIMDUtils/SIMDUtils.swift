@@ -50,59 +50,59 @@ public struct I {
 
 public extension Span where Element: SIMDScalar {
     @inlinable
-    func simdLoad<V: SIMD>(_ index: Int) -> V where V.Scalar == Element {
+    func loadSIMD<V: SIMD>(_ index: Int) -> V where V.Scalar == Element {
         self.withUnsafeBufferPointer { $0.loadUnalignedSIMD(index) }
     }
 
     @inlinable
     subscript<V: SIMD>(scalarIndex: I) -> V where V.Scalar == Element {
-        self.simdLoad(scalarIndex.value)
+        self.loadSIMD(scalarIndex.value)
     }
 
 }
 
 public extension MutableSpan where Element: SIMDScalar {
     @inlinable
-    func simdLoad<V: SIMD>(_ index: Int) -> V where V.Scalar == Element {
+    func loadSIMD<V: SIMD>(_ index: Int) -> V where V.Scalar == Element {
         self.withUnsafeBufferPointer { $0.loadUnalignedSIMD(index) }
     }
 
     @_lifetime(&self)
     @inlinable
-    mutating func simdStore<V: SIMD>(value: V, at index: Int) where V.Scalar == Element {
+    mutating func storeSIMD<V: SIMD>(value: V, at index: Int) where V.Scalar == Element {
         self.withUnsafeMutableBufferPointer { $0.storeSIMD(value: value, index) }
     }
 
     @inlinable
     subscript<V: SIMD>(scalarIndex: I) -> V where V.Scalar == Element {
         get {
-            self.simdLoad(scalarIndex.value)
+            self.loadSIMD(scalarIndex.value)
         }
         @_lifetime(&self)
         set {
-            self.simdStore(value: newValue, at: scalarIndex.value)
+            self.storeSIMD(value: newValue, at: scalarIndex.value)
         }
     }
 }
 
 public extension Array where Element: SIMDScalar {
     @inlinable
-    func simdLoad<V: SIMD>(_ index: Int) -> V where V.Scalar == Element {
+    func loadSIMD<V: SIMD>(_ index: Int) -> V where V.Scalar == Element {
         self.withUnsafeBufferPointer { $0.loadUnalignedSIMD(index) }
     }
 
     @inlinable
-    mutating func simdStore<V: SIMD>(value: V, at index: Int) where V.Scalar == Element {
+    mutating func storeSIMD<V: SIMD>(value: V, at index: Int) where V.Scalar == Element {
         self.withUnsafeMutableBufferPointer { $0.storeSIMD(value: value, index) }
     }
 
     @inlinable
     subscript<V: SIMD>(scalarIndex: I) -> V where V.Scalar == Element {
         get {
-            self.simdLoad(scalarIndex.value)
+            self.loadSIMD(scalarIndex.value)
         }
         set {
-            self.simdStore(value: newValue, at: scalarIndex.value)
+            self.storeSIMD(value: newValue, at: scalarIndex.value)
         }
     }
 }
